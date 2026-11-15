@@ -29,13 +29,26 @@
       <section class="feature" aria-labelledby="song-title">
         <div class="cover-column">
           <div class="cover-kicker"><span>UNA CANCIÓN PARA VOLVER</span><span class="cover-index">N.º 01</span></div>
-          <div class="lyric-stage" aria-label="Letra sincronizada, una línea a la vez">
-            <span class="stage-overline">ACOMPAÑA LA MELODÍA</span>
-            <p class="current-lyric" id="current-lyric" aria-live="polite">La letra aparecerá con la canción.</p>
-            <span class="lyric-progress" id="lyric-progress">— / —</span>
+          <div class="lyric-stage photo-stage" id="photo-stage" aria-label="Fotos de recuerdos con la letra sincronizada">
+            <div class="photo-slides" id="photo-slides" aria-hidden="true"></div>
+            <div class="photo-shade" aria-hidden="true"></div>
+            <div class="photo-placeholder" id="photo-placeholder"><span class="placeholder-star" aria-hidden="true">✦</span><span>TUS RECUERDOS</span><small>Añade fotos desde tu dispositivo</small></div>
+            <div class="lyric-card">
+              <span class="stage-overline">ACOMPAÑA LA MELODÍA</span>
+              <p class="current-lyric" id="current-lyric" aria-live="polite">La letra aparecerá con la canción.</p>
+              <div class="photo-controls">
+                <button class="photo-nav" id="photo-prev" type="button" aria-label="Foto anterior" disabled>‹</button>
+                <span class="lyric-progress" id="lyric-progress">— / —</span>
+                <button class="photo-nav" id="photo-next" type="button" aria-label="Foto siguiente" disabled>›</button>
+              </div>
+            </div>
             <span class="stage-ornament" aria-hidden="true">✦</span>
           </div>
-          <div class="cover-caption"><span>RICCHI E POVERI</span><span>ITALIA, 1981</span></div>
+          <div class="cover-caption photo-caption">
+            <label class="photos-upload" for="photo-files">＋ Añadir fotos</label>
+            <input class="visually-hidden" id="photo-files" type="file" accept="image/*" multiple />
+            <span id="photo-count">SOLO EN ESTE DISPOSITIVO</span>
+          </div>
         </div>
 
         <div class="listen-column">

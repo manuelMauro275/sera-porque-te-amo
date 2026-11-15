@@ -38,18 +38,34 @@ button:focus-visible, input:focus-visible { outline: 2px solid var(--gold-light)
 .cover-column { width: 100%; max-width: 430px; justify-self: start; }
 .cover-kicker, .cover-caption { display: flex; justify-content: space-between; color: #a9afa4; font-size: 9px; letter-spacing: .17em; }
 .cover-index { color: var(--gold-light); }
-.lyric-stage { width: min(100%, 420px); aspect-ratio: 1; margin: 27px auto 25px; border: 1px solid rgba(191, 174, 120, .68); border-radius: 50%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15%; text-align: center; background: radial-gradient(circle at 50% 46%, rgba(191,174,120,.10), rgba(26,39,36,.94) 65%, rgba(17,27,25,.98)); box-shadow: 0 20px 65px rgba(0,0,0,.19), inset 0 0 45px rgba(191,174,120,.045); }
-.lyric-stage::before, .lyric-stage::after { content: ''; position: absolute; border: 1px solid rgba(191,174,120,.19); border-radius: 50%; pointer-events: none; }
+.lyric-stage { width: min(100%, 420px); aspect-ratio: 1; margin: 27px auto 25px; border: 1px solid rgba(191, 174, 120, .68); border-radius: 50%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 9%; text-align: center; overflow: hidden; background: radial-gradient(circle at 50% 46%, rgba(191,174,120,.10), rgba(26,39,36,.94) 65%, rgba(17,27,25,.98)); box-shadow: 0 20px 65px rgba(0,0,0,.19), inset 0 0 45px rgba(191,174,120,.045); }
+.lyric-stage::before, .lyric-stage::after { content: ''; position: absolute; z-index: 4; border: 1px solid rgba(191,174,120,.19); border-radius: 50%; pointer-events: none; }
 .lyric-stage::before { inset: 13px; }
 .lyric-stage::after { inset: 24px; border-color: rgba(191,174,120,.11); }
+.photo-slides { position: absolute; z-index: 0; inset: 0; border-radius: 50%; overflow: hidden; }
+.photo-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease; }
+.photo-slide.is-active { opacity: 1; }
+.photo-shade { position: absolute; z-index: 2; inset: 0; border-radius: 50%; background: linear-gradient(180deg, rgba(17,27,25,.24) 0%, rgba(17,27,25,.18) 38%, rgba(17,27,25,.78) 72%, rgba(17,27,25,.93) 100%); }
+.photo-placeholder { position: absolute; z-index: 1; inset: 20%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 11px; color: var(--gold-light); font-size: 9px; letter-spacing: .18em; }
+.photo-placeholder small { color: #b4b6a8; font-size: 9px; letter-spacing: .02em; }
+.placeholder-star { font-family: var(--serif); font-size: 30px; }
+.photo-stage.has-photos .photo-placeholder { display: none; }
+.lyric-card { position: relative; z-index: 3; width: min(100%, 340px); padding: 16px 20px 12px; border: 1px solid rgba(224,209,162,.27); border-radius: 17px; background: rgba(17,27,25,.74); box-shadow: 0 9px 28px rgba(0,0,0,.18); backdrop-filter: blur(8px); }
 .stage-overline, .lyric-progress, .stage-ornament { position: relative; z-index: 1; }
 .stage-overline { color: var(--gold); font-size: 8px; letter-spacing: .2em; margin-bottom: 17px; }
-.current-lyric { position: relative; z-index: 1; width: 100%; color: var(--paper); font-family: var(--serif); font-size: clamp(27px, 3.6vw, 39px); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance; transition: opacity .35s ease, transform .35s ease; }
+.current-lyric { position: relative; z-index: 1; width: 100%; color: var(--paper); font-family: var(--serif); font-size: clamp(25px, 3.2vw, 35px); font-weight: 500; line-height: 1.08; margin: 0; text-wrap: balance; transition: opacity .35s ease, transform .35s ease; }
 .current-lyric.is-changing { opacity: 0; transform: translateY(5px); }
 .current-lyric.is-visible { opacity: 1; transform: translateY(0); }
-.lyric-progress { margin-top: 18px; color: #a8aa9b; font-size: 8px; letter-spacing: .17em; font-variant-numeric: tabular-nums; }
-.stage-ornament { position: absolute; bottom: 14%; color: var(--gold); font-size: 10px; opacity: .72; }
+.photo-controls { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 11px; }
+.lyric-progress { color: #d1d0c2; font-size: 8px; letter-spacing: .17em; font-variant-numeric: tabular-nums; }
+.photo-nav { width: 24px; height: 24px; padding: 0; border: 1px solid rgba(224,209,162,.38); border-radius: 50%; background: rgba(17,27,25,.48); color: var(--paper); font-family: var(--serif); font-size: 22px; line-height: 1; cursor: pointer; }
+.photo-nav:disabled { opacity: .3; cursor: default; }
+.stage-ornament { position: absolute; z-index: 5; bottom: 9%; color: var(--gold-light); font-size: 10px; opacity: .72; }
 .cover-caption { font-size: 9px; letter-spacing: .14em; color: #b0b3a8; }
+.photo-caption { align-items: center; gap: 10px; }
+.photos-upload { color: var(--gold-light); cursor: pointer; white-space: nowrap; border-bottom: 1px solid rgba(224,209,162,.5); padding-bottom: 4px; }
+.photos-upload:hover { color: var(--paper); }
+.photo-caption > span { font-size: 7px; letter-spacing: .12em; text-align: right; }
 
 .listen-column { min-width: 0; padding-top: 2px; }
 .eyebrow { color: var(--gold-light); display: flex; align-items: center; gap: 10px; font-size: 9px; letter-spacing: .18em; margin: 0 0 21px; }

@@ -8,9 +8,19 @@ const trackState = document.querySelector('#track-state');
 const audioMessage = document.querySelector('#audio-message');
 const currentLyric = document.querySelector('#current-lyric');
 const lyricProgress = document.querySelector('#lyric-progress');
+const photoInput = document.querySelector('#photo-files');
+const photoSlides = document.querySelector('#photo-slides');
+const photoStage = document.querySelector('#photo-stage');
+const photoPlaceholder = document.querySelector('#photo-placeholder');
+const photoCount = document.querySelector('#photo-count');
+const photoPrev = document.querySelector('#photo-prev');
+const photoNext = document.querySelector('#photo-next');
 let lyricLines = [];
 let activeLine = -1;
 let isSeeking = false;
+let photoUrls = [];
+let photoIndex = 0;
+let photoTimer = null;
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds) || seconds < 0) return '--:--';
@@ -27,6 +37,8 @@ function setPlaying(isPlaying) {
   playButton.classList.toggle('is-playing', isPlaying);
   playButton.setAttribute('aria-label', isPlaying ? 'Pausar' : 'Reproducir');
   trackState.textContent = isPlaying ? 'REPRODUCIENDO AHORA' : 'LISTA PARA REPRODUCIR';
+  if (isPlaying) startPhotoShow();
+  else stopPhotoShow();
 }
 
 function parseLrc(text) {
@@ -72,6 +84,64 @@ function showMessage(text, isError = false) {
   audioMessage.textContent = text;
   audioMessage.classList.toggle('is-error', isError);
 }
+
+function showPhoto(index) {
+  if (!photoUrls.length) return;
+  photoIndex = (index + photoUrls.length) % photoUrls.length;
+  photoSlides.querySelectorAll('.photo-slide').forEach((image, imageIndex) => {
+    image.classList.toggle('is-active', imageIndex === photoIndex);
+  });
+  photoCount.textContent = `${photoUrls.length} ${photoUrls.length === 1 ? 'FOTO' : 'FOTOS'} · SOLO EN ESTE DISPOSITIVO`;
+  photoPrev.disabled = photoUrls.length < 2;
+  photoNext.disabled = photoUrls.length < 2;
+  photoPrev.hidden = photoUrls.length < 2;
+  photoNext.hidden = photoUrls.length < 2;
+}
+
+function startPhotoShow() {
+  stopPhotoShow();
+  if (audio.paused || photoUrls.length < 2) return;
+  photoTimer = window.setInterval(() => showPhoto(photoIndex + 1), 6000);
+}
+
+function stopPhotoShow() {
+  if (photoTimer !== null) window.clearInterval(photoTimer);
+  photoTimer = null;
+}
+
+photoInput.addEventListener('change', () => {
+  stopPhotoShow();
+  photoUrls.forEach((url) => URL.revokeObjectURL(url));
+  photoUrls = Array.from(photoInput.files || [])
+    .filter((file) => file.type.startsWith('image/'))
+    .map((file) => URL.createObjectURL(file));
+  photoSlides.replaceChildren();
+  photoUrls.forEach((url, index) => {
+    const image = document.createElement('img');
+    image.className = `photo-slide${index === 0 ? ' is-active' : ''}`;
+    image.src = url;
+    image.alt = `Foto personal ${index + 1}`;
+    photoSlides.appendChild(image);
+  });
+  photoPlaceholder.hidden = photoUrls.length > 0;
+  photoStage.classList.toggle('has-photos', photoUrls.length > 0);
+  if (photoUrls.length) {
+    showPhoto(0);
+    startPhotoShow();
+    showMessage('Tus fotos aparecen solo en este dispositivo.');
+  } else {
+    photoIndex = 0;
+    photoPrev.disabled = true;
+    photoNext.disabled = true;
+    photoPrev.hidden = true;
+    photoNext.hidden = true;
+    photoCount.textContent = 'SOLO EN ESTE DISPOSITIVO';
+    if (photoInput.files?.length) showMessage('Elige archivos de imagen compatibles.', true);
+  }
+  photoInput.value = '';
+});
+photoPrev.addEventListener('click', () => showPhoto(photoIndex - 1));
+photoNext.addEventListener('click', () => showPhoto(photoIndex + 1));
 
 audio.addEventListener('loadedmetadata', () => {
   durationLabel.textContent = formatTime(audio.duration);
@@ -137,6 +207,10 @@ document.querySelector('#mute-button').addEventListener('click', (event) => {
   audio.muted = !audio.muted;
   event.currentTarget.classList.toggle('is-on', audio.muted);
   event.currentTarget.setAttribute('aria-label', audio.muted ? 'Activar sonido' : 'Silenciar');
+});
+window.addEventListener('beforeunload', () => {
+  stopPhotoShow();
+  photoUrls.forEach((url) => URL.revokeObjectURL(url));
 });
 document.querySelector('#footer-year').textContent = String(new Date().getFullYear());
 loadLyrics();

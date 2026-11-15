@@ -23,7 +23,41 @@ const server = createServer(async (request, response) => {
   const safePath = normalize(relativePath).replace(/^\.\.(\/|\\|$)/, '');
   try {
     const body = await readFile(join(root, safePath));
-    response.writeHead(200, { 'Content-Type': mime[extname(safePath)] || 'application/octet-stream', 'Cache-Control': 'no-store' });
+    const fileType = extname(safePath);
+    const headers = {
+      'Content-Type': mime[fileType] || 'application/octet-stream',
+      'Cache-Control': 'no-store',
+      'Content-Length': body.length,
+    };
+    if (fileType === '.mp3') {
+      headers['Accept-Ranges'] = 'bytes';
+      const range = request.headers.range?.match(/^bytes=(\d*)-(\d*)$/);
+      if (request.headers.range && !range) {
+        response.writeHead(416, { ...headers, 'Content-Range': `bytes */${body.length}` });
+        response.end();
+        return;
+      }
+      if (range) {
+        const size = body.length;
+        const suffixLength = range[1] === '' ? Number(range[2]) : 0;
+        const start = range[1] === '' ? Math.max(0, size - suffixLength) : Number(range[1]);
+        const end = range[1] === '' || range[2] === '' ? size - 1 : Math.min(Number(range[2]), size - 1);
+        if (start >= size || start > end || suffixLength === 0 && range[1] === '') {
+          response.writeHead(416, { ...headers, 'Content-Range': `bytes */${size}` });
+          response.end();
+          return;
+        }
+        const chunk = body.subarray(start, end + 1);
+        response.writeHead(206, {
+          ...headers,
+          'Content-Length': chunk.length,
+          'Content-Range': `bytes ${start}-${end}/${size}`,
+        });
+        response.end(chunk);
+        return;
+      }
+    }
+    response.writeHead(200, headers);
     response.end(body);
   } catch {
     response.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });

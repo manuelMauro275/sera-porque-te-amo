@@ -10,6 +10,7 @@ const currentLyric = document.querySelector('#current-lyric');
 const lyricProgress = document.querySelector('#lyric-progress');
 let lyricLines = [];
 let activeLine = -1;
+let isSeeking = false;
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds) || seconds < 0) return '--:--';
@@ -83,9 +84,11 @@ audio.addEventListener('loadedmetadata', () => {
   showMessage('La canción está lista. Pulsa reproducir para empezar.');
 });
 audio.addEventListener('timeupdate', () => {
-  currentTimeLabel.textContent = formatTime(audio.currentTime);
-  seek.value = String(audio.currentTime || 0);
-  updateSeekProgress();
+  if (!isSeeking) {
+    currentTimeLabel.textContent = formatTime(audio.currentTime);
+    seek.value = String(audio.currentTime || 0);
+    updateSeekProgress();
+  }
   updateActiveLyric();
 });
 audio.addEventListener('play', () => setPlaying(true));
@@ -106,14 +109,23 @@ playButton.addEventListener('click', async () => {
   }
 });
 seek.addEventListener('input', () => {
-  if (Number.isFinite(audio.duration)) audio.currentTime = Number(seek.value);
+  isSeeking = true;
+  currentTimeLabel.textContent = formatTime(Number(seek.value));
   updateSeekProgress();
+});
+seek.addEventListener('change', () => {
+  if (Number.isFinite(audio.duration)) audio.currentTime = Number(seek.value);
+  isSeeking = false;
 });
 volume.addEventListener('input', () => { audio.volume = Number(volume.value); });
 audio.volume = Number(volume.value);
-document.querySelector('#back-button').addEventListener('click', () => { audio.currentTime = Math.max(0, audio.currentTime - 10); });
+document.querySelector('#back-button').addEventListener('click', () => {
+  audio.currentTime = Math.max(0, audio.currentTime - 10);
+  isSeeking = false;
+});
 document.querySelector('#forward-button').addEventListener('click', () => {
   if (Number.isFinite(audio.duration)) audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+  isSeeking = false;
 });
 document.querySelector('#repeat-button').addEventListener('click', (event) => {
   audio.loop = !audio.loop;

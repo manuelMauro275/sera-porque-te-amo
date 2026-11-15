@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#20171a" />
-    <meta name="description" content="Un espacio íntimo para escuchar Será porque te amo y acompañarla con tu propia letra." />
+    <meta name="theme-color" content="#111b19" />
+    <meta name="description" content="Escucha Será porque te amo con la letra sincronizada, una línea a la vez." />
     <title>Será porque te amo — una experiencia para escuchar</title>
     <link rel="icon" href="/public/mark.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,13 +29,11 @@
       <section class="feature" aria-labelledby="song-title">
         <div class="cover-column">
           <div class="cover-kicker"><span>UNA CANCIÓN PARA VOLVER</span><span class="cover-index">N.º 01</span></div>
-          <div class="record-stage" aria-label="Ilustración de un disco de vinilo">
-            <div class="record-shadow"></div>
-            <div class="vinyl" id="vinyl">
-              <div class="vinyl-grooves"></div>
-              <div class="record-label"><span class="label-spark">✳</span><span class="label-title">AMORE</span><span class="label-rule"></span><span class="label-sub">LATO A · 1981</span></div>
-            </div>
-            <div class="record-glint"></div>
+          <div class="lyric-stage" aria-label="Letra sincronizada, una línea a la vez">
+            <span class="stage-overline">ACOMPAÑA LA MELODÍA</span>
+            <p class="current-lyric" id="current-lyric" aria-live="polite">La letra aparecerá con la canción.</p>
+            <span class="lyric-progress" id="lyric-progress">— / —</span>
+            <span class="stage-ornament" aria-hidden="true">✦</span>
           </div>
           <div class="cover-caption"><span>RICCHI E POVERI</span><span>ITALIA, 1981</span></div>
         </div>
@@ -45,7 +43,7 @@
             <p class="eyebrow"><span class="eyebrow-line"></span> UN CLÁSICO, A TU MANERA</p>
             <h1 id="song-title">Será porque<br /><em>te amo.</em></h1>
             <p class="artist-line">Ricchi e Poveri <span>—</span> 1981</p>
-            <p class="intro-note">Haz espacio para esta canción.<br />La letra sigue la música.</p>
+            <p class="intro-note">Haz espacio para esta canción.<br />La letra acompaña cada momento.</p>
           </div>
 
           <section class="player" aria-label="Reproductor de audio">
@@ -83,19 +81,6 @@
             <p id="audio-message" class="message" role="status" aria-live="polite">La canción está lista. Pulsa reproducir para empezar.</p>
             <audio id="audio" preload="metadata" src="/public/audio/sera-porque-te-amo.mp3"></audio>
           </section>
-        </div>
-      </section>
-
-      <section class="lyrics-section" aria-labelledby="lyrics-heading">
-        <div class="lyrics-heading-row">
-          <div><p class="eyebrow lyrics-eyebrow"><span class="eyebrow-line"></span> ACOMPAÑA LA MELODÍA</p><h2 id="lyrics-heading">La letra <em>de tu recuerdo.</em></h2></div>
-        </div>
-        <div class="lyrics-card">
-          <div class="lyrics-index" aria-hidden="true"><span>01</span><span class="index-rule"></span><span>LETRA</span></div>
-          <div class="lyrics-content" id="lyrics-content" aria-live="off">
-            <div class="empty-lyrics" id="empty-lyrics"><span class="quote-mark" aria-hidden="true">“</span><p>Cargando la letra sincronizada…</p></div>
-          </div>
-          <div class="lyrics-bottom"><span id="lyrics-footnote">TRANSCRIPCIÓN AUTOMÁTICA · PUEDE CONTENER ERRORES</span><span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
         </div>
       </section>
     </main>

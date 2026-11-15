@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="28" fill="#21191b"/>
-  <circle cx="64" cy="64" r="47" fill="#171214" stroke="#c87952" stroke-width="2"/>
-  <circle cx="64" cy="64" r="38" fill="none" stroke="#60433d" stroke-width="1"/>
-  <circle cx="64" cy="64" r="30" fill="none" stroke="#60433d" stroke-width="1"/>
-  <circle cx="64" cy="64" r="21" fill="#c87952"/>
-  <text x="64" y="72" fill="#21191b" font-family="Georgia,serif" font-size="26" font-style="italic" text-anchor="middle">S</text>
-  <circle cx="64" cy="64" r="3" fill="#21191b"/>
+  <rect width="128" height="128" rx="28" fill="#111b19"/>
+  <circle cx="64" cy="64" r="47" fill="#172321" stroke="#bfae78" stroke-width="2"/>
+  <circle cx="64" cy="64" r="38" fill="none" stroke="#716b4e" stroke-width="1"/>
+  <circle cx="64" cy="64" r="30" fill="none" stroke="#716b4e" stroke-width="1"/>
+  <circle cx="64" cy="64" r="21" fill="#bfae78"/>
+  <text x="64" y="72" fill="#111b19" font-family="Georgia,serif" font-size="26" font-style="italic" text-anchor="middle">S</text>
+  <circle cx="64" cy="64" r="3" fill="#111b19"/>
 </svg>

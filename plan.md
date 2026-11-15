@@ -2,35 +2,31 @@
 
 ## Alcance e implementación
 
-Crear una experiencia web de una página, en español y adaptable a móvil, dedicada únicamente al archivo de audio proporcionado por la persona usuaria. La canción reproducida será esa grabación integrada en el proyecto; los controles permiten iniciar, pausar, buscar, ajustar volumen y repetir. La letra proporcionada por la persona usuaria se incorpora en formato LRC y las líneas avanzan según sus marcas de tiempo. Los tiempos de algunas líneas se estimaron al subdividir frases reconocidas en segmentos; no se seleccionan otras canciones, no hay autoplay y la persona debe iniciar la reproducción.
-
-La aplicación usa HTML, CSS y JavaScript nativos; Node.js sirve la app en el puerto 3000. El elemento `audio` reproduce el archivo MP3 local al proyecto, mientras JavaScript carga el LRC, selecciona la línea vigente con el avance del audio y desplaza la vista de letra. No se requiere base de datos ni inicio de sesión.
+Aplicación web de una página, en español, dedicada al MP3 proporcionado por la persona usuaria. La letra enviada se sincroniza con el tiempo del audio, pero solo se muestra una línea vigente, una a la vez, dentro de la zona visual antes ocupada por el disco; no aparece un panel separado con la letra completa. Los controles ofrecen reproducir, pausa, búsqueda, volumen y repetición; la reproducción empieza por acción explícita. La app usa HTML, CSS y JavaScript nativos, y Node.js la sirve en el puerto 3000. El recurso de audio, archivo LRC y estilos son estáticos; no se necesita base de datos.
 
 ## Estructura del proyecto
 
-- `index.html`: estructura, título de pista, reproductor y panel de letra.
-- `src/styles.css`: diseño adaptable, controles y estilos de sincronización.
-- `src/app.js`: reproducción del único audio, tiempo, volumen, controles y seguimiento de línea LRC.
-- `public/audio/sera-porque-te-amo.mp3`: archivo de audio adjunto proporcionado por la persona usuaria.
-- `public/lyrics/sera-porque-te-amo.lrc`: letra proporcionada por la persona usuaria y marcas de tiempo aproximadas.
-- `public/manus-routes.json`: manifiesto de la única ruta (`/`).
-- `server.js`: servidor Node ligero.
-- `package.json`: comandos para ejecutar.
+- `index.html`: encabezado, medallón para la línea actual, reproductor y pie.
+- `src/styles.css`: diseño adaptable con verde tinta, marfil y oro champagne; estados de letra y controles.
+- `src/app.js`: controles, lectura de marcas LRC y actualización de la única línea vigente.
+- `public/audio/sera-porque-te-amo.mp3`: audio adjunto.
+- `public/lyrics/sera-porque-te-amo.lrc`: letra enviada por la persona usuaria y marcas aproximadas.
+- `public/mark.svg`: icono del sitio.
+- `public/manus-routes.json`: manifiesto de la ruta `/`.
+- `server.js`, `package.json`: servidor Node y comandos.
 - `app.config.ts`: identidad del proyecto.
 
-## Diseño
+## Dirección visual
 
-Estilos considerados: **editorial de vinilo italiano de los setenta** (0.081), **romanticismo de cine en tonos borgoña** (0.064), **minimalismo de galería en marfil y grafito** (0.027). Se elige el primero para evocar la época y calidez de la canción sin imitar una portada comercial.
+Estilos considerados: **jardín nocturno y oro antiguo** (0.081), **marfil de carta manuscrita y olivo** (0.064), **grafito mineral y platino** (0.027). Se elige jardín nocturno y oro antiguo para una atmósfera íntima y elegante sin rosa ni rojo.
 
-- **Movimiento de diseño:** editorial musical italiana de los años setenta, reinterpretada con pulcritud contemporánea.
-- **Principios:** cálido sin exceso de adornos; controles claramente utilizables; jerarquía tipográfica expresiva; el disco como motivo visual.
-- **Filosofía de color:** fondo tinta-borgoña y crema de papel, con acentos cobre/terracota; evoca una escucha íntima y una carátula de vinilo añeja.
-- **Paradigma de disposición:** composición editorial asimétrica en dos zonas —identidad/arte del disco y escucha/letra— que se apila verticalmente en pantallas estrechas.
-- **Elementos distintivos:** vinilo ilustrado con CSS y etiqueta central; pequeños filetes de cobre y numeración de pista; halo suave durante la reproducción.
-- **Interacción:** pocos controles directos y grandes; la letra sigue el audio; diseño accesible y estados claros.
-- **Animación:** giro lento del vinilo únicamente al reproducir; transiciones breves en la línea activa; respetar `prefers-reduced-motion`.
-- **Tipografía:** Cormorant Garamond (serif de exhibición) y DM Sans (sans-serif) con familias de reserva.
-- **Esencia de marca:** un rincón personal para escuchar este clásico con su letra sincronizada; cercana, elegante y nostálgica.
-- **Voz:** cálida y directa. «Haz espacio para esta canción.» y «La letra sigue la música.»
-- **Logotipo:** monograma «S» como surco circular de vinilo dentro de una etiqueta.
-- **Color de marca:** cobre quemado (`#c87952`).
+- **Movimiento de diseño:** editorial musical romántico contemporáneo, con un medallón tipográfico en vez de un tocadiscos.
+- **Principios:** intimidad sin empalago; letra legible en primer plano; controles discretos; contraste cálido y accesible.
+- **Color:** verde tinta profundo y matices oliva como base; marfil para lectura; oro champagne reservado para acentos y detalles. Sin rosa ni rojo.
+- **Disposición:** dos columnas asimétricas en escritorio: letra en un medallón circular a la izquierda, canción y reproductor a la derecha; en móvil, medallón arriba y reproductor debajo.
+- **Elementos distintivos:** marco circular fino en oro alrededor de la línea; numerador de líneas pequeño; acento de estrella discreta.
+- **Interacción y animación:** únicamente la frase sincronizada aparece en el medallón y cambia con una transición suave; controles grandes y claros; respetar `prefers-reduced-motion`.
+- **Tipografía:** Cormorant Garamond para letra y título; DM Sans para controles y microtexto.
+- **Esencia y voz:** un espacio sereno para vivir esta canción, íntimo, elegante y cálido. Ejemplos: «Haz espacio para esta canción.» y «La letra acompaña cada momento.»
+- **Logotipo:** monograma “S” dentro de anillos finos, en oro sobre verde tinta.
+- **Color de marca:** oro champagne (`#bfae78`).

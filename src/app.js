@@ -6,9 +6,8 @@ const currentTimeLabel = document.querySelector('#current-time');
 const durationLabel = document.querySelector('#duration');
 const trackState = document.querySelector('#track-state');
 const audioMessage = document.querySelector('#audio-message');
-const lyricsContent = document.querySelector('#lyrics-content');
-const emptyLyrics = document.querySelector('#empty-lyrics');
-const vinyl = document.querySelector('#vinyl');
+const currentLyric = document.querySelector('#current-lyric');
+const lyricProgress = document.querySelector('#lyric-progress');
 let lyricLines = [];
 let activeLine = -1;
 
@@ -26,7 +25,6 @@ function updateSeekProgress() {
 function setPlaying(isPlaying) {
   playButton.classList.toggle('is-playing', isPlaying);
   playButton.setAttribute('aria-label', isPlaying ? 'Pausar' : 'Reproducir');
-  vinyl.classList.toggle('is-spinning', isPlaying);
   trackState.textContent = isPlaying ? 'REPRODUCIENDO AHORA' : 'LISTA PARA REPRODUCIR';
 }
 
@@ -39,21 +37,6 @@ function parseLrc(text) {
   }).filter((line) => line.text.length > 0);
 }
 
-function renderLyrics() {
-  lyricsContent.querySelectorAll('.lyric-line').forEach((node) => node.remove());
-  emptyLyrics.hidden = lyricLines.length > 0;
-  if (!lyricLines.length) return;
-  const fragment = document.createDocumentFragment();
-  lyricLines.forEach((line, index) => {
-    const paragraph = document.createElement('p');
-    paragraph.className = 'lyric-line';
-    paragraph.dataset.index = String(index);
-    paragraph.textContent = line.text;
-    fragment.appendChild(paragraph);
-  });
-  lyricsContent.appendChild(fragment);
-}
-
 function updateActiveLyric() {
   let nextActive = -1;
   lyricLines.forEach((line, index) => {
@@ -61,11 +44,15 @@ function updateActiveLyric() {
   });
   if (nextActive === activeLine) return;
   activeLine = nextActive;
-  lyricsContent.querySelectorAll('.lyric-line').forEach((node) => {
-    const isActive = Number(node.dataset.index) === activeLine;
-    node.classList.toggle('is-active', isActive);
-    if (isActive) node.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
+  currentLyric.classList.add('is-changing');
+  window.setTimeout(() => {
+    currentLyric.textContent = activeLine >= 0 ? lyricLines[activeLine].text : 'La letra aparecerá con la canción.';
+    lyricProgress.textContent = activeLine >= 0
+      ? `${String(activeLine + 1).padStart(2, '0')} / ${String(lyricLines.length).padStart(2, '0')}`
+      : `— / ${String(lyricLines.length).padStart(2, '0')}`;
+    currentLyric.classList.remove('is-changing');
+    currentLyric.classList.add('is-visible');
+  }, 180);
 }
 
 async function loadLyrics() {
@@ -73,10 +60,10 @@ async function loadLyrics() {
     const response = await fetch('/public/lyrics/sera-porque-te-amo.lrc');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     lyricLines = parseLrc(await response.text());
-    renderLyrics();
-    document.querySelector('#lyrics-footnote').textContent = 'LETRA SINCRONIZADA CON EL AUDIO';
+    lyricProgress.textContent = `— / ${String(lyricLines.length).padStart(2, '0')}`;
+    updateActiveLyric();
   } catch {
-    emptyLyrics.querySelector('p').textContent = 'No se pudo cargar la letra sincronizada.';
+    currentLyric.textContent = 'No se pudo cargar la letra sincronizada.';
   }
 }
 
@@ -106,7 +93,7 @@ audio.addEventListener('pause', () => setPlaying(false));
 audio.addEventListener('ended', () => setPlaying(false));
 audio.addEventListener('error', () => showMessage('No se pudo cargar la canción adjunta.', true));
 
-document.querySelector('#play-button').addEventListener('click', async () => {
+playButton.addEventListener('click', async () => {
   if (audio.paused) {
     try {
       await audio.play();

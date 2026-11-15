@@ -18,7 +18,9 @@ const photoNext = document.querySelector('#photo-next');
 let lyricLines = [];
 let activeLine = -1;
 let isSeeking = false;
-let photoUrls = [];
+let photoUrls = ['/public/photos/foto-especial.jpg'];
+let photoObjectUrls = [];
+let photosAreLocal = false;
 let photoIndex = 0;
 let photoTimer = null;
 
@@ -91,7 +93,7 @@ function showPhoto(index) {
   photoSlides.querySelectorAll('.photo-slide').forEach((image, imageIndex) => {
     image.classList.toggle('is-active', imageIndex === photoIndex);
   });
-  photoCount.textContent = `${photoUrls.length} ${photoUrls.length === 1 ? 'FOTO' : 'FOTOS'} · SOLO EN ESTE DISPOSITIVO`;
+  photoCount.textContent = `${photoUrls.length} ${photoUrls.length === 1 ? 'FOTO' : 'FOTOS'} · ${photosAreLocal ? 'SOLO EN ESTE DISPOSITIVO' : 'EN EL CARRUSEL'}`;
   photoPrev.disabled = photoUrls.length < 2;
   photoNext.disabled = photoUrls.length < 2;
   photoPrev.hidden = photoUrls.length < 2;
@@ -109,12 +111,7 @@ function stopPhotoShow() {
   photoTimer = null;
 }
 
-photoInput.addEventListener('change', () => {
-  stopPhotoShow();
-  photoUrls.forEach((url) => URL.revokeObjectURL(url));
-  photoUrls = Array.from(photoInput.files || [])
-    .filter((file) => file.type.startsWith('image/'))
-    .map((file) => URL.createObjectURL(file));
+function renderPhotoSlides() {
   photoSlides.replaceChildren();
   photoUrls.forEach((url, index) => {
     const image = document.createElement('img');
@@ -127,8 +124,6 @@ photoInput.addEventListener('change', () => {
   photoStage.classList.toggle('has-photos', photoUrls.length > 0);
   if (photoUrls.length) {
     showPhoto(0);
-    startPhotoShow();
-    showMessage('Tus fotos aparecen solo en este dispositivo.');
   } else {
     photoIndex = 0;
     photoPrev.disabled = true;
@@ -136,6 +131,22 @@ photoInput.addEventListener('change', () => {
     photoPrev.hidden = true;
     photoNext.hidden = true;
     photoCount.textContent = 'SOLO EN ESTE DISPOSITIVO';
+  }
+}
+
+photoInput.addEventListener('change', () => {
+  stopPhotoShow();
+  photoObjectUrls.forEach((url) => URL.revokeObjectURL(url));
+  photoObjectUrls = [];
+  const selectedFiles = Array.from(photoInput.files || []).filter((file) => file.type.startsWith('image/'));
+  photoObjectUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+  photoUrls = [...photoObjectUrls];
+  photosAreLocal = photoUrls.length > 0;
+  renderPhotoSlides();
+  if (photoUrls.length) {
+    startPhotoShow();
+    showMessage('Tus fotos aparecen solo en este dispositivo.');
+  } else {
     if (photoInput.files?.length) showMessage('Elige archivos de imagen compatibles.', true);
   }
   photoInput.value = '';
@@ -210,7 +221,8 @@ document.querySelector('#mute-button').addEventListener('click', (event) => {
 });
 window.addEventListener('beforeunload', () => {
   stopPhotoShow();
-  photoUrls.forEach((url) => URL.revokeObjectURL(url));
+  photoObjectUrls.forEach((url) => URL.revokeObjectURL(url));
 });
 document.querySelector('#footer-year').textContent = String(new Date().getFullYear());
+renderPhotoSlides();
 loadLyrics();

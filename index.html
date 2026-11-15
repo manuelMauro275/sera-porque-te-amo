@@ -45,13 +45,13 @@
             <p class="eyebrow"><span class="eyebrow-line"></span> UN CLÁSICO, A TU MANERA</p>
             <h1 id="song-title">Será porque<br /><em>te amo.</em></h1>
             <p class="artist-line">Ricchi e Poveri <span>—</span> 1981</p>
-            <p class="intro-note">Haz espacio para esta canción.<br />La música y la letra las pones tú.</p>
+            <p class="intro-note">Haz espacio para esta canción.<br />La letra sigue la música.</p>
           </div>
 
           <section class="player" aria-label="Reproductor de audio">
             <div class="track-info">
               <div class="mini-mark" aria-hidden="true">S</div>
-              <div class="track-copy"><strong id="track-name">Será porque te amo</strong><span id="track-state">Aún no has cargado el audio</span></div>
+              <div class="track-copy"><strong id="track-name">Será porque te amo</strong><span id="track-state">PREPARANDO LA CANCIÓN</span></div>
               <button class="icon-button repeat-button" id="repeat-button" type="button" aria-label="Repetir desactivado" title="Repetir canción">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4m14-1v2a3 3 0 0 1-3 3H3" /></svg>
               </button>
@@ -79,13 +79,9 @@
                 <input id="volume" class="range volume-range" type="range" min="0" max="1" step="0.01" value="0.8" aria-label="Volumen" disabled />
               </span>
             </div>
-            <div class="audio-actions">
-              <label class="load-audio" for="audio-file"><span class="upload-icon" aria-hidden="true">＋</span><span id="audio-action-label">Añadir archivo de audio</span></label>
-              <input id="audio-file" class="visually-hidden" type="file" accept="audio/*" />
-              <span class="local-note"><span aria-hidden="true">◌</span> Solo en este dispositivo</span>
-            </div>
-            <p id="audio-message" class="message" role="status" aria-live="polite">Elige un archivo de audio que tengas derecho a reproducir.</p>
-            <audio id="audio" preload="metadata"></audio>
+            <div class="audio-actions"><span class="local-note"><span aria-hidden="true">◌</span> AUDIO INTEGRADO · 03:10</span></div>
+            <p id="audio-message" class="message" role="status" aria-live="polite">La canción está lista. Pulsa reproducir para empezar.</p>
+            <audio id="audio" preload="metadata" src="/public/audio/sera-porque-te-amo.mp3"></audio>
           </section>
         </div>
       </section>
@@ -93,19 +89,13 @@
       <section class="lyrics-section" aria-labelledby="lyrics-heading">
         <div class="lyrics-heading-row">
           <div><p class="eyebrow lyrics-eyebrow"><span class="eyebrow-line"></span> ACOMPAÑA LA MELODÍA</p><h2 id="lyrics-heading">La letra <em>de tu recuerdo.</em></h2></div>
-          <div class="lyrics-actions"><label class="text-upload" for="lyrics-file">Cargar .txt</label><input id="lyrics-file" class="visually-hidden" type="file" accept=".txt,text/plain" /><button class="edit-button" id="edit-lyrics" type="button">＋ <span>Añadir letra</span></button></div>
         </div>
         <div class="lyrics-card">
           <div class="lyrics-index" aria-hidden="true"><span>01</span><span class="index-rule"></span><span>LETRA</span></div>
           <div class="lyrics-content" id="lyrics-content" aria-live="off">
-            <div class="empty-lyrics" id="empty-lyrics"><span class="quote-mark" aria-hidden="true">“</span><p>Tu canción ya tiene un lugar.<br />Ahora puedes traer sus palabras.</p><span class="empty-help">Pega la letra que tienes derecho a usar<br />o carga un archivo de texto.</span><button class="empty-cta" id="empty-cta" type="button">Añadir mi letra <span aria-hidden="true">↗</span></button></div>
+            <div class="empty-lyrics" id="empty-lyrics"><span class="quote-mark" aria-hidden="true">“</span><p>Cargando la letra sincronizada…</p></div>
           </div>
-          <div class="lyrics-editor" id="lyrics-editor" hidden>
-            <label for="lyrics-input">TU LETRA</label>
-            <textarea id="lyrics-input" rows="8" placeholder="Pega aquí la letra que tienes derecho a usar.\n\nSi quieres sincronizarla, escribe una marca de tiempo al inicio de cada línea, por ejemplo [00:12].\n\nLa letra se mostrará solo en tu navegador."></textarea>
-            <div class="editor-footer"><span>Las marcas [mm:ss] sincronizan cada línea con la música.</span><div><button class="cancel-edit" id="cancel-edit" type="button">Cancelar</button><button class="save-lyrics" id="save-lyrics" type="button">Guardar letra</button></div></div>
-          </div>
-          <div class="lyrics-bottom"><span id="lyrics-footnote">TU LETRA NO SE SUBE A NINGÚN SERVIDOR</span><span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+          <div class="lyrics-bottom"><span id="lyrics-footnote">TRANSCRIPCIÓN AUTOMÁTICA · PUEDE CONTENER ERRORES</span><span class="sound-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
         </div>
       </section>
     </main>

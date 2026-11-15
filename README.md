@@ -14,7 +14,7 @@ Requiere Node.js 18 o posterior. Desde esta carpeta, ejecuta `npm run dev` y abr
 - `src/styles.css`: diseño para escritorio y móvil.
 - `src/app.js`: audio, controles y letra activa sincronizada.
 - `public/audio/sera-porque-te-amo.mp3`: grabación proporcionada para esta app.
-- `public/lyrics/sera-porque-te-amo.lrc`: transcripción con marcas de tiempo tomadas del audio.
+- `public/lyrics/sera-porque-te-amo.lrc`: letra enviada por la persona usuaria con marcas de tiempo.
 - `server.js`: servidor local.
 
-La transcripción se generó automáticamente y puede contener errores; el formato LRC usa `[mm:ss.xx]Texto` para cada línea. La canción no comienza hasta que se pulsa Reproducir.
+La letra se muestra y desplaza al compás de la pista. Los tiempos de algunas líneas son aproximados porque una frase se subdividió a partir de marcas de tiempo por segmentos.

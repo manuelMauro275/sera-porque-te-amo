@@ -2,7 +2,7 @@
 
 ## Alcance e implementación
 
-Crear una experiencia web de una página, en español y adaptable a móvil, dedicada únicamente al archivo de audio proporcionado por la persona usuaria. La canción reproducida será esa grabación integrada en el proyecto; los controles permiten iniciar, pausar, buscar, ajustar volumen y repetir. Una transcripción automática de ese audio se incorpora en formato LRC y las líneas avanzan según sus marcas de tiempo. No se seleccionan otras canciones, no hay autoplay y la persona debe iniciar la reproducción. Se advierte que el reconocimiento automático puede contener errores.
+Crear una experiencia web de una página, en español y adaptable a móvil, dedicada únicamente al archivo de audio proporcionado por la persona usuaria. La canción reproducida será esa grabación integrada en el proyecto; los controles permiten iniciar, pausar, buscar, ajustar volumen y repetir. La letra proporcionada por la persona usuaria se incorpora en formato LRC y las líneas avanzan según sus marcas de tiempo. Los tiempos de algunas líneas se estimaron al subdividir frases reconocidas en segmentos; no se seleccionan otras canciones, no hay autoplay y la persona debe iniciar la reproducción.
 
 La aplicación usa HTML, CSS y JavaScript nativos; Node.js sirve la app en el puerto 3000. El elemento `audio` reproduce el archivo MP3 local al proyecto, mientras JavaScript carga el LRC, selecciona la línea vigente con el avance del audio y desplaza la vista de letra. No se requiere base de datos ni inicio de sesión.
 
@@ -12,7 +12,7 @@ La aplicación usa HTML, CSS y JavaScript nativos; Node.js sirve la app en el pu
 - `src/styles.css`: diseño adaptable, controles y estilos de sincronización.
 - `src/app.js`: reproducción del único audio, tiempo, volumen, controles y seguimiento de línea LRC.
 - `public/audio/sera-porque-te-amo.mp3`: archivo de audio adjunto proporcionado por la persona usuaria.
-- `public/lyrics/sera-porque-te-amo.lrc`: líneas transcritas y marcas de tiempo derivadas de la grabación.
+- `public/lyrics/sera-porque-te-amo.lrc`: letra proporcionada por la persona usuaria y marcas de tiempo aproximadas.
 - `public/manus-routes.json`: manifiesto de la única ruta (`/`).
 - `server.js`: servidor Node ligero.
 - `package.json`: comandos para ejecutar.

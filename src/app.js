@@ -18,9 +18,9 @@ const photoNext = document.querySelector('#photo-next');
 let lyricLines = [];
 let activeLine = -1;
 let isSeeking = false;
-let photoUrls = ['/public/photos/foto-especial.jpg'];
+const bundledPhotoUrls = ['/public/photos/foto-especial.jpg'];
+let photoUrls = [...bundledPhotoUrls];
 let photoObjectUrls = [];
-let photosAreLocal = false;
 let photoIndex = 0;
 let photoTimer = null;
 
@@ -93,7 +93,7 @@ function showPhoto(index) {
   photoSlides.querySelectorAll('.photo-slide').forEach((image, imageIndex) => {
     image.classList.toggle('is-active', imageIndex === photoIndex);
   });
-  photoCount.textContent = `${photoUrls.length} ${photoUrls.length === 1 ? 'FOTO' : 'FOTOS'} · ${photosAreLocal ? 'SOLO EN ESTE DISPOSITIVO' : 'EN EL CARRUSEL'}`;
+  photoCount.textContent = `${photoUrls.length} ${photoUrls.length === 1 ? 'FOTO' : 'FOTOS'} · ${photoObjectUrls.length ? `${photoObjectUrls.length} AÑADIDAS` : 'EN EL CARRUSEL'}`;
   photoPrev.disabled = photoUrls.length < 2;
   photoNext.disabled = photoUrls.length < 2;
   photoPrev.hidden = photoUrls.length < 2;
@@ -136,19 +136,18 @@ function renderPhotoSlides() {
 
 photoInput.addEventListener('change', () => {
   stopPhotoShow();
-  photoObjectUrls.forEach((url) => URL.revokeObjectURL(url));
-  photoObjectUrls = [];
   const selectedFiles = Array.from(photoInput.files || []).filter((file) => file.type.startsWith('image/'));
-  photoObjectUrls = selectedFiles.map((file) => URL.createObjectURL(file));
-  photoUrls = [...photoObjectUrls];
-  photosAreLocal = photoUrls.length > 0;
-  renderPhotoSlides();
-  if (photoUrls.length) {
-    startPhotoShow();
-    showMessage('Tus fotos aparecen solo en este dispositivo.');
-  } else {
+  const addedUrls = selectedFiles.map((file) => URL.createObjectURL(file));
+  if (!addedUrls.length) {
     if (photoInput.files?.length) showMessage('Elige archivos de imagen compatibles.', true);
+    photoInput.value = '';
+    return;
   }
+  photoObjectUrls.push(...addedUrls);
+  photoUrls = [...bundledPhotoUrls, ...photoObjectUrls];
+  renderPhotoSlides();
+  startPhotoShow();
+  showMessage('Las fotos que añadas permanecen en este dispositivo.');
   photoInput.value = '';
 });
 photoPrev.addEventListener('click', () => showPhoto(photoIndex - 1));
